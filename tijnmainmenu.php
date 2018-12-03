@@ -66,11 +66,13 @@ $usrID= $_SESSION['sesh_user'];
 
     $ssnrow = mysqli_fetch_array($ssnqueryresult);
     $ssn = $ssnrow['ssn'];
+    
 /*Code Below shows all transactions sent from, sent to, requested from
 requested to the user between a certain time frame */
 $startDate=$_POST[fromDate]." 00:00:00";
 $toDate=$_POST[toDate]." 00:00:00";
 $userSearchText=$_POST[searchUser];
+$generalSearch = $_POST[search];
 if(isset($_POST['submitDates'])){
     
     /* if user chooses two dates, first search the send_transaction table for 
@@ -208,10 +210,10 @@ $showFourthTableResult= mysqli_query($link, $showFourthTableQuery)
     </div>
     <?php 
 }
+/*code below allows user to search TIJN for other users */
     if(isset($_POST['submitUserSearch'])){
     
-    /* if user chooses two dates, first search the send_transaction table for 
-    transactions in which the logged in user has sent a payment to someone else, and create a table with these appropriate tuples*/
+    
     $showtablequery="SELECT User_Account.Name, Electronic_Address.Identifier, User_Account.username FROM User_Account, Electronic_Address WHERE User_Account.ssn = Electronic_Address.ssn AND (User_Account.Name LIKE '%$userSearchText%' OR Electronic_Address.Identifier LIKE '%$userSearchText%' OR User_Account.username LIKE '%$userSearchText%');";
 
 $showtableresult= mysqli_query($link, $showtablequery) 
@@ -238,6 +240,148 @@ $array = array('Name', 'Identifier', 'username');
         </TABLE>
     </div>
     <?php
+    }
+    
+    
+    
+    
+    if(isset($_POST['submitSearch'])){
+        /*search the send_transaction table for any transactions that the user sent that 
+        correlates to the search query*/
+        
+  $showtablequery="SELECT * FROM `Send_Transaction` WHERE `Send_Transaction`.`username`='$usrID' AND (`Send_Transaction`.`Memo` LIKE '%$generalSearch%' OR `Send_Transaction`.`Amount` LIKE '%$generalSearch%' OR `Send_Transaction`.`Identifier` LIKE '%$generalSearch%' );";
+
+$showtableresult= mysqli_query($link, $showtablequery) 
+    or trigger_error($db->error); ?>
+        <br>
+ <div style="overflow: scroll;  margin-left:220px; margin-right:120px;">   
+<TABLE class="table">
+<TR>
+<TH>Transaction ID</TH>
+<TH>Amount</TH>
+<TH>Date/Time</TH>
+<TH>Sent To</TH>
+</TR>
+<?php
+echo "Payments You've Sent:";
+$array = array('Send ID', 'Amount', 'Date/Time','Identifier');
+        while($row = mysqli_fetch_array($showtableresult)) {
+
+    echo "<TR>";
+    foreach($array as $field) { 
+        echo "<TD>".$row[$field]."</TD>";
+    }
+    echo "</TR>";
+} ?>
+        </TABLE>
+    </div>
+    
+
+  
+<?php
+    /*  search the request_transaction table for 
+    transactions in which the logged in user has requested a payment from someone else, and create a table with these appropriate tuples*/
+ $showSecondTableQuery="SELECT * FROM REQUEST_TRANSACTION WHERE REQUEST_TRANSACTION.username='$usrID' AND (`Request_transaction`.`Memo` LIKE '%$generalSearch%' OR `Request_transaction`.`Amount` LIKE '%$generalSearch%' OR `Request_transaction`.`Identifier` LIKE '%$generalSearch%');";
+$showSecondTableResult= mysqli_query($link, $showSecondTableQuery)
+    or trigger_error($db->error);
+   ?>
+    <div style="overflow: scroll;  margin-left:220px; margin-right:120px;">   
+<TABLE class="table">
+<TR>
+<TH>Transaction ID</TH>
+<TH>Amount</TH>
+<TH>Date/Time</TH>
+<TH>Requested From</TH>
+    </TR>
+<?php
+    echo "Payments You've Requested:";
+    $secondArray = array('Request ID', 'Amount', 'Date/Time','Identifier');
+        while($secondRow = mysqli_fetch_array($showSecondTableResult)) {
+
+    echo "<TR>";
+    foreach($secondArray as $secondField) { 
+        echo "<TD>".$secondRow[$secondField]."</TD>";
+    }
+    echo "</TR>";
+        }
+
+   
+ ?> 
+    </TABLE>
+    
+    </div>
+<?php
+/*  search the send_transactioin table for 
+    transactions in which the logged in user has had a payment sent to them, and create a table with these appropriate tuples*/    
+    
+ $showThirdTableQuery="SELECT `Send_Transaction`.`Send ID`,`Send_Transaction`.`Amount`,`Send_Transaction`.`Date/Time`,`Send_Transaction`.`username` FROM `Send_Transaction`,`Electronic_Address`,`User_Account`
+WHERE `User_Account`.ssn=`Electronic_Address`.ssn AND `Electronic_Address`.`Identifier`=`Send_Transaction`.`Identifier` AND `User_Account`.`username`='$usrID' AND (`Send_Transaction`.`Memo` LIKE '%$generalSearch%' OR `Send_Transaction`.`Amount` LIKE '%$generalSearch%' OR `Send_Transaction`.`username` LIKE '%$generalSearch%' ) ;";
+$showThirdTableResult= mysqli_query($link, $showThirdTableQuery)
+    or trigger_error($db->error);
+   ?>
+    <div style="overflow: scroll;  margin-left:220px; margin-right:120px;">   
+<TABLE class="table">
+<TR>
+<TH>Transaction ID</TH>
+<TH>Amount</TH>
+<TH>Date/Time</TH>
+<TH>Sending User</TH>
+    </TR>
+<?php
+    echo "Payments Sent to you:";
+    $thirdArray = array('Send ID', 'Amount', 'Date/Time','username');
+        while($thirdRow = mysqli_fetch_array($showThirdTableResult)) {
+
+    echo "<TR>";
+    foreach($thirdArray as $thirdField) { 
+        echo "<TD>".$thirdRow[$thirdField]."</TD>";
+    }
+    echo "</TR>";
+        }
+
+   
+ ?> 
+    </TABLE>
+    
+    </div>
+    
+    <?php
+    
+/*  search the request_transaction table for 
+    transactions in which the logged in user has been requested to make a payment by another user, and create a table with these appropriate tuples*/    
+    
+ $showFourthTableQuery="SELECT `Request_Transaction`.`Request ID`,`Request_Transaction`.`Amount`,`Request_Transaction`.`Date/Time`,`Request_Transaction`.`username` FROM `Request_Transaction`,`Electronic_Address`,`User_Account`
+WHERE `User_Account`.ssn=`Electronic_Address`.ssn AND `Electronic_Address`.`Identifier`=`Request_Transaction`.`Identifier` AND `User_Account`.`username`='$usrID' AND (`Request_transaction`.`Memo` LIKE '%$generalSearch%' OR `Request_transaction`.`Amount` LIKE '%$generalSearch%' OR `Request_transaction`.`username` LIKE '%$generalSearch%');";
+$showFourthTableResult= mysqli_query($link, $showFourthTableQuery)
+    or trigger_error($db->error);
+   ?>
+    <div style="overflow: scroll;  margin-left:220px; margin-right:120px;">   
+<TABLE class="table">
+<TR>
+<TH>Transaction ID</TH>
+<TH>Amount</TH>
+<TH>Date/Time</TH>
+<TH>Requesting User</TH>
+    </TR>
+<?php
+    echo "Payments Requested from you:";
+    $fourthArray = array('Request ID', 'Amount', 'Date/Time','username');
+        while($fourthRow = mysqli_fetch_array($showFourthTableResult)) {
+
+    echo "<TR>";
+    foreach($fourthArray as $fourthField) { 
+        echo "<TD>".$fourthRow[$fourthField]."</TD>";
+    }
+    echo "</TR>";
+        }
+
+   
+ ?> 
+    </TABLE>
+    
+    </div>
+        
+  <?php      
     }
     ?>
 

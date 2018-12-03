@@ -27,9 +27,11 @@
 			    		<input class="btn btn-lg btn-success btn-block" type="submit" value="Login" style="width:200px; margin:auto;"><br><br>
 			    	</fieldset>
 			      	</form>
-                    <form method="post" action="./">
-
-    </form>
+                    <form method="post" action="tijnuserregistration.php">
+			    		<input class="btn btn-lg btn-success btn-block" type="submit" value="Sign Up" style="width:200px; margin:auto;"><br><br>
+                    </form>
+                                           
+         
 			    </div>
     </div>
 			</div>
