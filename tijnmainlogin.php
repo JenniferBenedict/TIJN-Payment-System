@@ -11,7 +11,7 @@
      </div> 
         <div style="float: auto; style="margin-top: 100px;margin-left:200px;>
 
-    		<div class="panel panel-default" style="margin-left:200px;">
+    		<div class="panel panel-default" style="margin-left:100px;">
 			  	<div class="panel-heading"><br>
 			    	<h2 class="panel-title">TIJN Payment System</h2>
 			 	</div>

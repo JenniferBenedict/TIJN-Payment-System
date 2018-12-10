@@ -30,7 +30,7 @@ else{
   <input type="text" name="amount" value="" placeholder="0.00"><br>
     Memo (Optional):<br>
 <textarea rows="5" name="memo" cols="30" value="" placeholder="Example: 'Payment for Lunch'"></textarea><br><br>
-<input type="submit" name = "submitrequest" value="Send Request" class="btn btn-lg btn-success btn-block"  style="width:200px; margin:auto;"/> 
+<input type="submit" name = "submitrequest" value="Send Payment" class="btn btn-lg btn-success btn-block"  style="width:200px; margin:auto;"/> 
 </form>
    
     
@@ -87,13 +87,24 @@ WHERE `User_Account`.ssn=`Electronic_Address`.ssn AND `Electronic_Address`.`Iden
     
     
     
-       if ($result) {
+       if ($result && $updateRecipientBalanceResult && $updateMyBalanceResult) {
     echo "Your payment has been submitted!";
     echo "<br>";
     echo $alertText;
 
 } else {
-    echo "Error updating record: " . mysqli_error($conn);
+    $query="INSERT INTO `Electronic_Address`(`Identifier`,`Verified`,`ssn`) VALUES ('$identifier','0','0')";
+     $result = mysqli_query($link, $query) 
+    or trigger_error($db->error);
+           
+    $updateQuery="INSERT INTO `Send_Transaction`(`Amount`, `Memo`, `Canceled`, `ssn`, `Identifier`, `username`) VALUES ('$amount','$memo','0','$ssn','$identifier','$usrID');";
+    $updateResult=mysqli_query($link, $updateQuery) 
+    or trigger_error($db->error);
+    echo "Your payment has been submitted!";
+
+   
+    
+    
 }}}
 
     

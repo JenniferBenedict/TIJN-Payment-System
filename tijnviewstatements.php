@@ -125,10 +125,12 @@ $showtableresult= mysqli_query($link, $showtablequery)
 <TH>Amount</TH>
 <TH>Date/Time</TH>
 <TH>Sent To</TH>
+<TH>Memo</TH>
+
 </TR>
 <?php
 echo "Payments You've Sent";
-$array = array('Send ID', 'Amount', 'Date/Time','Identifier');
+$array = array('Send ID', 'Amount', 'Date/Time','Identifier','Memo');
         while($row = mysqli_fetch_array($showtableresult)) {
 
     echo "<TR>";
@@ -155,10 +157,12 @@ $showSecondTableResult= mysqli_query($link, $showSecondTableQuery)
 <TH>Amount</TH>
 <TH>Date/Time</TH>
 <TH>Requested From</TH>
+<TH>Memo</TH>
+
     </TR>
 <?php
     echo "Payments You've Requested";
-    $secondArray = array('Request ID', 'Amount', 'Date/Time','Identifier');
+    $secondArray = array('Request ID', 'Amount', 'Date/Time','Identifier','Memo');
         while($secondRow = mysqli_fetch_array($showSecondTableResult)) {
 
     echo "<TR>";
@@ -174,7 +178,7 @@ $showSecondTableResult= mysqli_query($link, $showSecondTableQuery)
     
     </div>
     <?php
-    $showtablequery="SELECT `Send_Transaction`.`Send ID`,`Send_Transaction`.`Amount`,`Send_Transaction`.`Date/Time`,`Send_Transaction`.`username` FROM `Send_Transaction`,`Electronic_Address`,`User_Account`
+    $showtablequery="SELECT `Send_Transaction`.`Send ID`,`Send_Transaction`.`Amount`,`Send_Transaction`.`Date/Time`,`Send_Transaction`.`username`,`Send_Transaction`.`Memo` FROM `Send_Transaction`,`Electronic_Address`,`User_Account`
 WHERE `User_Account`.ssn=`Electronic_Address`.ssn AND `Electronic_Address`.`Identifier`=`Send_Transaction`.`Identifier` AND `User_Account`.`username`='$usrID' AND Send_Transaction.`Date/Time` LIKE '$statementDate';";
 $showtableresult= mysqli_query($link, $showtablequery) 
     or trigger_error($db->error); 
@@ -188,10 +192,12 @@ $showtableresult= mysqli_query($link, $showtablequery)
 <TH>Amount</TH>
 <TH>Date/Time</TH>
 <TH>Sent From</TH>
+ <TH>Memo</TH>
+
 </TR>
 <?php
 echo "Payments Sent To You";
-$array = array('Send ID', 'Amount', 'Date/Time','username');
+$array = array('Send ID', 'Amount', 'Date/Time','username','Memo');
         while($row = mysqli_fetch_array($showtableresult)) {
 
     echo "<TR>";
@@ -204,7 +210,7 @@ $array = array('Send ID', 'Amount', 'Date/Time','username');
     </div>
     
      <?php
-    $showtablequery="SELECT `Request_Transaction`.`Request ID`,`Request_Transaction`.`Amount`,`Request_Transaction`.`Date/Time`,`Request_Transaction`.`username` FROM `Request_Transaction`,`Electronic_Address`,`User_Account`
+    $showtablequery="SELECT `Request_Transaction`.`Request ID`,`Request_Transaction`.`Amount`,`Request_Transaction`.`Date/Time`,`Request_Transaction`.`username`, `Request_Transaction`.`Memo` FROM `Request_Transaction`,`Electronic_Address`,`User_Account`
 WHERE `User_Account`.ssn=`Electronic_Address`.ssn AND `Electronic_Address`.`Identifier`=`Request_Transaction`.`Identifier` AND `User_Account`.`username`='$usrID' AND Request_Transaction.`Date/Time` LIKE '$statementDate';";
 $showtableresult= mysqli_query($link, $showtablequery) 
     or trigger_error($db->error); 
@@ -218,10 +224,12 @@ $showtableresult= mysqli_query($link, $showtablequery)
 <TH>Amount</TH>
 <TH>Date/Time</TH>
 <TH>Requested From</TH>
+ <TH>Memo</TH>
+   
 </TR>
 <?php
 echo "Payments Requested From You";
-$array = array('Request ID', 'Amount', 'Date/Time','username');
+$array = array('Request ID', 'Amount', 'Date/Time','username','Memo');
         while($row = mysqli_fetch_array($showtableresult)) {
 
     echo "<TR>";

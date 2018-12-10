@@ -40,13 +40,11 @@ else{
 and store them in appropriate variables */
 
     $usrID=$_SESSION['sesh_user'];
-    echo $usrID;
     $ssnquery = "SELECT User_Account.ssn FROM User_Account WHERE User_Account.username= '$usrID'";
     $ssnqueryresult = mysqli_query($link, $ssnquery) or trigger_error($db->error);
 
     $ssnrow = mysqli_fetch_array($ssnqueryresult);
     $ssn = $ssnrow['ssn'];
-    echo $ssn;
     $identifier = $_POST['identifier']; // this is the sender's Email address
     $amount = $_POST['amount'];
     $memo = $_POST['memo'];
@@ -99,7 +97,18 @@ WHERE `User_Account`.ssn=`Electronic_Address`.ssn AND `Electronic_Address`.`Iden
     echo "Your request has been submitted!";
 
 } else {
-    echo "Error updating record: " . mysqli_error($conn);
+    $query="INSERT INTO `Electronic_Address`(`Identifier`,`Verified`,`ssn`) VALUES ('$identifier','0','0')";
+     $result = mysqli_query($link, $query) 
+    or trigger_error($db->error);
+           
+    $updateQuery="INSERT INTO `Request_transaction`(`Amount`, `Memo`, `ssn`, `Identifier`, `username`) VALUES ('$amount','$memo','$ssn','$identifier','$usrID');";
+    $updateResult=mysqli_query($link, $updateQuery) 
+    or trigger_error($db->error);
+    echo "Your Request has been submitted!";
+
+   
+    
+    
 }}}
     // You can also use header('Location: thank_you.php'); to redirect to another page.
     // You cannot use header and echo together. It's one or the other.

@@ -89,10 +89,12 @@ $showtableresult= mysqli_query($link, $showtablequery)
 <TH>Amount</TH>
 <TH>Date/Time</TH>
 <TH>Sent To</TH>
+<TH>Memo</TH>
+
 </TR>
 <?php
 echo "Payments You've Sent:";
-$array = array('Send ID', 'Amount', 'Date/Time','Identifier');
+$array = array('Send ID', 'Amount', 'Date/Time','Identifier','Memo');
         while($row = mysqli_fetch_array($showtableresult)) {
 
     echo "<TR>";
@@ -120,10 +122,12 @@ $showSecondTableResult= mysqli_query($link, $showSecondTableQuery)
 <TH>Amount</TH>
 <TH>Date/Time</TH>
 <TH>Requested From</TH>
+<TH>Memo</TH>
+
     </TR>
 <?php
     echo "Payments You've Requested:";
-    $secondArray = array('Request ID', 'Amount', 'Date/Time','Identifier');
+    $secondArray = array('Request ID', 'Amount', 'Date/Time','Identifier','Memo');
         while($secondRow = mysqli_fetch_array($showSecondTableResult)) {
 
     echo "<TR>";
@@ -142,7 +146,7 @@ $showSecondTableResult= mysqli_query($link, $showSecondTableQuery)
 /*  search the send_transactioin table for 
     transactions in which the logged in user has had a payment sent to them, and create a table with these appropriate tuples*/    
     
- $showThirdTableQuery="SELECT `Send_Transaction`.`Send ID`,`Send_Transaction`.`Amount`,`Send_Transaction`.`Date/Time`,`Send_Transaction`.`username` FROM `Send_Transaction`,`Electronic_Address`,`User_Account`
+ $showThirdTableQuery="SELECT `Send_Transaction`.`Send ID`,`Send_Transaction`.`Amount`,`Send_Transaction`.`Date/Time`,`Send_Transaction`.`username`, `Send_Transaction`.`Memo` FROM `Send_Transaction`,`Electronic_Address`,`User_Account`
 WHERE `User_Account`.ssn=`Electronic_Address`.ssn AND `Electronic_Address`.`Identifier`=`Send_Transaction`.`Identifier` AND `User_Account`.`username`='$usrID' AND `Send_Transaction`.`Date/Time` BETWEEN '$startDate' AND '$toDate';";
 $showThirdTableResult= mysqli_query($link, $showThirdTableQuery)
     or trigger_error($db->error);
@@ -154,10 +158,12 @@ $showThirdTableResult= mysqli_query($link, $showThirdTableQuery)
 <TH>Amount</TH>
 <TH>Date/Time</TH>
 <TH>Sending User</TH>
+<TH>Memo</TH>
+
     </TR>
 <?php
     echo "Payments Sent to you:";
-    $thirdArray = array('Send ID', 'Amount', 'Date/Time','username');
+    $thirdArray = array('Send ID', 'Amount', 'Date/Time','username','Memo');
         while($thirdRow = mysqli_fetch_array($showThirdTableResult)) {
 
     echo "<TR>";
@@ -178,7 +184,7 @@ $showThirdTableResult= mysqli_query($link, $showThirdTableQuery)
 /*  search the request_transaction table for 
     transactions in which the logged in user has been requested to make a payment by another user, and create a table with these appropriate tuples*/    
     
- $showFourthTableQuery="SELECT `Request_Transaction`.`Request ID`,`Request_Transaction`.`Amount`,`Request_Transaction`.`Date/Time`,`Request_Transaction`.`username` FROM `Request_Transaction`,`Electronic_Address`,`User_Account`
+ $showFourthTableQuery="SELECT `Request_Transaction`.`Request ID`,`Request_Transaction`.`Amount`,`Request_Transaction`.`Date/Time`,`Request_Transaction`.`username`, `Request_Transaction`.`Memo` FROM `Request_Transaction`,`Electronic_Address`,`User_Account`
 WHERE `User_Account`.ssn=`Electronic_Address`.ssn AND `Electronic_Address`.`Identifier`=`Request_Transaction`.`Identifier` AND `User_Account`.`username`='$usrID' AND `Request_Transaction`.`Date/Time` BETWEEN '$startDate' AND '$toDate';";
 $showFourthTableResult= mysqli_query($link, $showFourthTableQuery)
     or trigger_error($db->error);
@@ -190,10 +196,12 @@ $showFourthTableResult= mysqli_query($link, $showFourthTableQuery)
 <TH>Amount</TH>
 <TH>Date/Time</TH>
 <TH>Requesting User</TH>
+<TH>Memo</TH>
+
     </TR>
 <?php
     echo "Payments Requested from you:";
-    $fourthArray = array('Request ID', 'Amount', 'Date/Time','username');
+    $fourthArray = array('Request ID', 'Amount', 'Date/Time','username','Memo');
         while($fourthRow = mysqli_fetch_array($showFourthTableResult)) {
 
     echo "<TR>";
@@ -225,10 +233,12 @@ $showtableresult= mysqli_query($link, $showtablequery)
 <TH>User</TH>
 <TH>Identifier</TH>
 <TH>Username</TH>
+<TH>Memo</TH>
+
 </TR>
 <?php
 echo "Users:";
-$array = array('Name', 'Identifier', 'username');
+$array = array('Name', 'Identifier', 'username','Memo');
         while($row = mysqli_fetch_array($showtableresult)) {
 
     echo "<TR>";
@@ -261,10 +271,12 @@ $showtableresult= mysqli_query($link, $showtablequery)
 <TH>Amount</TH>
 <TH>Date/Time</TH>
 <TH>Sent To</TH>
+<TH>Memo</TH>
+
 </TR>
 <?php
 echo "Payments You've Sent:";
-$array = array('Send ID', 'Amount', 'Date/Time','Identifier');
+$array = array('Send ID', 'Amount', 'Date/Time','Identifier','Memo');
         while($row = mysqli_fetch_array($showtableresult)) {
 
     echo "<TR>";
@@ -292,10 +304,12 @@ $showSecondTableResult= mysqli_query($link, $showSecondTableQuery)
 <TH>Amount</TH>
 <TH>Date/Time</TH>
 <TH>Requested From</TH>
+<TH>Memo</TH>
+
     </TR>
 <?php
     echo "Payments You've Requested:";
-    $secondArray = array('Request ID', 'Amount', 'Date/Time','Identifier');
+    $secondArray = array('Request ID', 'Amount', 'Date/Time','Identifier','Memo');
         while($secondRow = mysqli_fetch_array($showSecondTableResult)) {
 
     echo "<TR>";
@@ -314,7 +328,7 @@ $showSecondTableResult= mysqli_query($link, $showSecondTableQuery)
 /*  search the send_transactioin table for 
     transactions in which the logged in user has had a payment sent to them, and create a table with these appropriate tuples*/    
     
- $showThirdTableQuery="SELECT `Send_Transaction`.`Send ID`,`Send_Transaction`.`Amount`,`Send_Transaction`.`Date/Time`,`Send_Transaction`.`username` FROM `Send_Transaction`,`Electronic_Address`,`User_Account`
+ $showThirdTableQuery="SELECT `Send_Transaction`.`Send ID`,`Send_Transaction`.`Amount`,`Send_Transaction`.`Date/Time`,`Send_Transaction`.`username`, `Send_Transaction`.`Memo` FROM `Send_Transaction`,`Electronic_Address`,`User_Account`
 WHERE `User_Account`.ssn=`Electronic_Address`.ssn AND `Electronic_Address`.`Identifier`=`Send_Transaction`.`Identifier` AND `User_Account`.`username`='$usrID' AND (`Send_Transaction`.`Memo` LIKE '%$generalSearch%' OR `Send_Transaction`.`Amount` LIKE '%$generalSearch%' OR `Send_Transaction`.`username` LIKE '%$generalSearch%' ) ;";
 $showThirdTableResult= mysqli_query($link, $showThirdTableQuery)
     or trigger_error($db->error);
@@ -326,10 +340,12 @@ $showThirdTableResult= mysqli_query($link, $showThirdTableQuery)
 <TH>Amount</TH>
 <TH>Date/Time</TH>
 <TH>Sending User</TH>
+<TH>Memo</TH>
+
     </TR>
 <?php
     echo "Payments Sent to you:";
-    $thirdArray = array('Send ID', 'Amount', 'Date/Time','username');
+    $thirdArray = array('Send ID', 'Amount', 'Date/Time','username','Memo');
         while($thirdRow = mysqli_fetch_array($showThirdTableResult)) {
 
     echo "<TR>";
@@ -350,7 +366,7 @@ $showThirdTableResult= mysqli_query($link, $showThirdTableQuery)
 /*  search the request_transaction table for 
     transactions in which the logged in user has been requested to make a payment by another user, and create a table with these appropriate tuples*/    
     
- $showFourthTableQuery="SELECT `Request_Transaction`.`Request ID`,`Request_Transaction`.`Amount`,`Request_Transaction`.`Date/Time`,`Request_Transaction`.`username` FROM `Request_Transaction`,`Electronic_Address`,`User_Account`
+ $showFourthTableQuery="SELECT `Request_Transaction`.`Request ID`,`Request_Transaction`.`Amount`,`Request_Transaction`.`Date/Time`,`Request_Transaction`.`username`, `Request_Transaction`.`Memo` FROM `Request_Transaction`,`Electronic_Address`,`User_Account`
 WHERE `User_Account`.ssn=`Electronic_Address`.ssn AND `Electronic_Address`.`Identifier`=`Request_Transaction`.`Identifier` AND `User_Account`.`username`='$usrID' AND (`Request_transaction`.`Memo` LIKE '%$generalSearch%' OR `Request_transaction`.`Amount` LIKE '%$generalSearch%' OR `Request_transaction`.`username` LIKE '%$generalSearch%');";
 $showFourthTableResult= mysqli_query($link, $showFourthTableQuery)
     or trigger_error($db->error);
@@ -362,10 +378,12 @@ $showFourthTableResult= mysqli_query($link, $showFourthTableQuery)
 <TH>Amount</TH>
 <TH>Date/Time</TH>
 <TH>Requesting User</TH>
+<TH>Memo</TH>
+
     </TR>
 <?php
     echo "Payments Requested from you:";
-    $fourthArray = array('Request ID', 'Amount', 'Date/Time','username');
+    $fourthArray = array('Request ID', 'Amount', 'Date/Time','username','Memo');
         while($fourthRow = mysqli_fetch_array($showFourthTableResult)) {
 
     echo "<TR>";
