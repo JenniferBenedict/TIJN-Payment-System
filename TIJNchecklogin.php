@@ -34,7 +34,6 @@ $_SESSION['sesh_user'] = "";
 if (($usrUsername === $myusername) && ($usrPassword === $mypassword)) {
     $_SESSION['sesh_user'] = $myusername;
     //var_dump($_SESSION['sesh_user']);
-    echo "that worked!";
 //    echo "<script type='text/javascript'> document.location = 'login_success.php'; </script>";
     ?>
     <script text="text/javascript">
@@ -45,8 +44,7 @@ if (($usrUsername === $myusername) && ($usrPassword === $mypassword)) {
     //exit();
 } else {
     echo "Your Username or Password is incorrect";
-    echo $usrPassword;
-    echo $usrUsername;
+
 }
 
 //if($count==1){
