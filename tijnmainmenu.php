@@ -233,12 +233,12 @@ $showtableresult= mysqli_query($link, $showtablequery)
 <TH>User</TH>
 <TH>Identifier</TH>
 <TH>Username</TH>
-<TH>Memo</TH>
+
 
 </TR>
 <?php
 echo "Users:";
-$array = array('Name', 'Identifier', 'username','Memo');
+$array = array('Name', 'Identifier', 'username');
         while($row = mysqli_fetch_array($showtableresult)) {
 
     echo "<TR>";
