@@ -50,7 +50,7 @@ window.location.href = "tijnmainlogin.php";
 
     <!--form for searching for an account-->
 <form method="post" action="">
-  Search Users:<br>
+    <h1 >Search For TIJN Users</h1>
     <input type="text" name="searchUser" value=""placeholder="e.g. Alice or Alice123@gmail.com" style="width:500px;"> <br> <br>
 <input type="submit" name = "submitUserSearch" value="Search" class="btn btn-lg btn-success btn-block"  style="width:300px; margin:auto; height:50px;"/> <br> <br>
 </form>  
